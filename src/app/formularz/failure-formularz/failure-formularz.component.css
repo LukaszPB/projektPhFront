@@ -1,5 +1,4 @@
-/* Stylizacja całego formularza */
-form {
+.form {
   max-width: 400px;
   margin: 0 auto;
   padding: 50px;
@@ -7,16 +6,16 @@ form {
   border-radius: 5px;
 }
 
-/* Stylizacja etykiet */
+.form-group {
+  margin-bottom: 20px;
+}
+
 label {
   display: block;
   margin-bottom: 5px;
 }
 
-/* Stylizacja pól wejściowych */
-input[type="text"],
-input[type="number"],
-input[type="date"] {
+.form-control {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -24,8 +23,7 @@ input[type="date"] {
   border-radius: 5px;
 }
 
-/* Stylizacja przycisku submit */
-button[type="submit"] {
+.btn-primary {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -36,6 +34,6 @@ button[type="submit"] {
   transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
+.btn-primary:hover {
   background-color: #0056b3;
 }

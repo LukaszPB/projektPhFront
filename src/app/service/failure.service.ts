@@ -56,6 +56,13 @@ export class FailureService {
       tap(() => this.failureListUpdated$.next())
     );
   }
+  getFailureTypes(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.url}FailureTypes`);
+  }
+
+  getStatuses(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.url}Statuses`);
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

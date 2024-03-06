@@ -1,27 +1,31 @@
-<form [formGroup]="form" (ngSubmit)="add()">
-  <div>
+<form [formGroup]="form" (ngSubmit)="add()" class="form">
+  <div class="form-group">
     <label for="failureType">Failure Type:</label>
-    <input type="text" id="failureType" formControlName="failureType" required>
+    <select id="failureType" formControlName="failureType" required class="form-control">
+      <option *ngFor="let type of failureTypes" [value]="type">{{ type }}</option>
+    </select>
   </div>
-  <div>
+  <div class="form-group">
     <label for="name">Name:</label>
-    <input type="text" id="name" formControlName="name" required>
+    <input type="text" id="name" formControlName="name" required class="form-control">
   </div>
-  <div>
+  <div class="form-group">
     <label for="potentialCost">Potential Cost:</label>
-    <input type="number" id="potentialCost" formControlName="potentialCost" required>
+    <input type="number" id="potentialCost" formControlName="potentialCost" required class="form-control">
   </div>
-  <div>
+  <div class="form-group">
     <label for="potentialDate">Potential Date:</label>
-    <input type="date" id="potentialDate" formControlName="potentialDate" required>
+    <input type="date" id="potentialDate" formControlName="potentialDate" required class="form-control">
   </div>
-  <div>
+  <div class="form-group">
     <label for="repairDescription">Repair Description:</label>
-    <input type="text" id="repairDescription" formControlName="repairDescription" required>
+    <input type="text" id="repairDescription" formControlName="repairDescription" required class="form-control">
   </div>
-  <div>
+  <div class="form-group">
     <label for="status">Status:</label>
-    <input type="text" id="status" formControlName="status" required>
+    <select id="status" formControlName="status" required class="form-control">
+      <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+    </select>
   </div>
-  <button type="submit">Submit</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
