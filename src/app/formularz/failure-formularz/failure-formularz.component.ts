@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FailureService} from "../../service/failure.service";
+import {Failure} from "../../Klasa/failure.model";
+import {DTOModel} from "../../Klasa/DTO.model";
 
 @Component({
   selector: 'app-failure-formularz',
@@ -62,8 +64,9 @@ export class FailureFormularzComponent {
     if (this.form.valid) {
       if(isNaN(this.id_edycji))
       {
-        console.log("dodałem failure: ",this.form.value)
-        // this.failureService.addUserHttp(this.form.value.email,this.form.value.nickname,this.form.value.password,this.form.value.name,this.form.value.surname);
+         console.log("dodałem failure: ",this.form.value)
+         let failure=new DTOModel(1000,this.form.value.failureType,this.form.value.name,this.form.value.potentialCost,this.form.value.potentialDate,this.form.value.status,this.form.value.repairDescription)
+         this.failureService.addFailure(failure).subscribe();
       }
       else
       {

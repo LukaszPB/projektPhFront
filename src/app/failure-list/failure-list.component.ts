@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 export class FailureListComponent {
   failures: Failure[]
   constructor(private failureService: FailureService, private router: Router) {
-    failureService.getFailures().subscribe(failures=>{this.failures=failures;   console.log(this.failures);})
+    failureService.getFailures().subscribe(failures=>{this.failures=failures;   console.log(this.failures); this.failureService.setFailuresService(this.failures);})
 
   }
   navigateToAddForm() {
