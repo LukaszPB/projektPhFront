@@ -1,1 +1,16 @@
-<p>failure-element works!</p>
+<div class="failure-element">
+  <h2>Failure Element</h2>
+  <ul class="failure-list">
+    <li><span>ID:</span> {{ failure.id }}</li>
+    <li><span>Failure Type:</span> {{ failure.failureType }}</li>
+    <li><span>Name:</span> {{ failure.name }}</li>
+    <li><span>Potential Cost:</span> {{ failure.potentialCost }}</li>
+    <li><span>Potential Date:</span> {{ zamienDate(failure.potentialDate) }}</li>
+    <li><span>Status:</span> {{ failure.status }}</li>
+    <li><span>Repair Description:</span> {{ failure.repairDescription }}</li>
+  </ul>
+  <div class="button-container">
+    <button class="edit-button">Edytuj</button>
+    <button class="delete-button">Usuń</button>
+  </div>
+</div>
