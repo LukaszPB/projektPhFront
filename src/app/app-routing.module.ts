@@ -6,6 +6,7 @@ import {FailureFormularzComponent} from "./formularz/failure-formularz/failure-f
 const routes: Routes = [
   {path:'',component:FailureListComponent},
   { path: 'dodaj', component: FailureFormularzComponent },
+  { path: 'edit/:id', component: FailureFormularzComponent},
 ];
 
 @NgModule({

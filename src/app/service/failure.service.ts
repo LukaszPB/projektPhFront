@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Failure} from "../Klasa/failure.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, Observable, of, Subject, tap} from "rxjs";
+import {catchError, map, Observable, of, Subject, tap} from "rxjs";
 import {DTOModel} from "../Klasa/DTO.model";
 
 @Injectable({
@@ -17,9 +17,10 @@ export class FailureService {
   getFailures(): Observable<Failure[]>{
     return this.http.get<Failure[]>(`${this.url}Failures`);;
   }
-  getSingleFailure(id:number):Observable<Failure>{
-
-    return this.http.get<Failure>(`${this.url}Failures/${id}`);
+  getSingleFailure(id: number): Observable<Failure | undefined> {
+    return this.getFailures().pipe(
+      map(failures => failures.find(failure => failure.id === id))
+    );
   }
   get failureListUpdated(): Observable<void> {
     return this.failureListUpdated$.asObservable();
@@ -44,6 +45,18 @@ export class FailureService {
       catchError(this.handleError<void>('deleteFailure'))
     );
   }
+  putFailure(id: number, updatedFailure: DTOModel): Observable<void> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.put<void>(`${this.url}Failure/${id}`, updatedFailure, httpOptions).pipe(
+      catchError(this.handleError<void>('putFailure')),
+      tap(() => this.failureListUpdated$.next())
+    );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(operation + ' failed' + error);

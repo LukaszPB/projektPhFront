@@ -10,7 +10,7 @@
     <li><span>Repair Description:</span> {{ failure.repairDescription }}</li>
   </ul>
   <div class="button-container">
-    <button class="edit-button">Edytuj</button>
+    <button class="edit-button" (click)="editFailure()">Edytuj</button>
     <button class="delete-button" (click)="deleteFailure()">Usuń</button>
   </div>
 </div>
