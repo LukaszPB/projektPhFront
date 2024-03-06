@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FailureService} from "../service/failure.service";
 import {Failure} from "../Klasa/failure.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-failure-list',
@@ -9,9 +10,12 @@ import {Failure} from "../Klasa/failure.model";
 })
 export class FailureListComponent {
   failures: Failure[]
-  constructor(private failureService: FailureService) {
+  constructor(private failureService: FailureService, private router: Router) {
     failureService.getFailures().subscribe(failures=>{this.failures=failures;   console.log(this.failures);})
 
+  }
+  navigateToAddForm() {
+    this.router.navigate(['/dodaj']);
   }
 
 }

@@ -14,4 +14,8 @@ export class FailureService {
   getFailures(): Observable<Failure[]>{
     return this.http.get<Failure[]>(this.url);
   }
+  getSingleFailure(id:number):Observable<Failure>{
+
+    return this.http.get<Failure>(`${this.url}/${id}`);
+  }
 }

@@ -1,6 +1,6 @@
 <div class="failure-container">
   <h1>Lista Failures</h1>
-  <button class="add-button">Dodaj</button>
+  <button class="add-button" (click)="navigateToAddForm()">Dodaj</button>
   <app-failure-element *ngFor="let failure of failures" [failure]="failure"></app-failure-element>
 
 </div>

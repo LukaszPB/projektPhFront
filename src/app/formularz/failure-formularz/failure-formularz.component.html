@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="add()">
+  <div>
+    <label for="failureType">Failure Type:</label>
+    <input type="text" id="failureType" formControlName="failureType" required>
+  </div>
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name" required>
+  </div>
+  <div>
+    <label for="potentialCost">Potential Cost:</label>
+    <input type="number" id="potentialCost" formControlName="potentialCost" required>
+  </div>
+  <div>
+    <label for="potentialDate">Potential Date:</label>
+    <input type="date" id="potentialDate" formControlName="potentialDate" required>
+  </div>
+  <div>
+    <label for="repairDescription">Repair Description:</label>
+    <input type="text" id="repairDescription" formControlName="repairDescription" required>
+  </div>
+  <div>
+    <label for="status">Status:</label>
+    <input type="text" id="status" formControlName="status" required>
+  </div>
+  <button type="submit">Submit</button>
+</form>
