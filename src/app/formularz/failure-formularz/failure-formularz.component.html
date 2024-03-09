@@ -1,31 +1,42 @@
 <form [formGroup]="form" (ngSubmit)="add()" class="form">
   <div class="form-group">
     <label for="failureType">Failure Type:</label>
-    <select id="failureType" formControlName="failureType" required class="form-control">
+    <select id="failureType" formControlName="failureType" required class="form-control" (blur)="onBlur('failureType')">
       <option *ngFor="let type of failureTypes" [value]="type">{{ type }}</option>
     </select>
+    <div *ngIf="fieldBlurred['failureType'] && form.controls['failureType'].invalid && (form.controls['failureType'].dirty || form.controls['failureType'].touched)" class="error-message">Failure Type is required.</div>
   </div>
   <div class="form-group">
     <label for="name">Name:</label>
-    <input type="text" id="name" formControlName="name" required class="form-control">
+    <input type="text" id="name" formControlName="name" required class="form-control" (blur)="onBlur('name')">
+    <div *ngIf="fieldBlurred['name'] && form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class="error-message">Name: min 1, max 250</div>
+  </div>
+  <div class="form-group">
+    <label for="date">Date:</label>
+    <input type="date" id="date" formControlName="date" required class="form-control" (blur)="onBlur('date')">
+    <div *ngIf="fieldBlurred['date'] && form.controls['date'].invalid && (form.controls['date'].dirty || form.controls['date'].touched)" class="error-message">Date must be earlier or same as today</div>
   </div>
   <div class="form-group">
     <label for="potentialCost">Potential Cost:</label>
-    <input type="number" id="potentialCost" formControlName="potentialCost" required class="form-control">
+    <input type="number" id="potentialCost" formControlName="potentialCost" required class="form-control" (blur)="onBlur('potentialCost')">
+    <div *ngIf="fieldBlurred['potentialCost'] && form.controls['potentialCost'].invalid && (form.controls['potentialCost'].dirty || form.controls['potentialCost'].touched)" class="error-message">Potential Cost must be positive.</div>
   </div>
   <div class="form-group">
     <label for="potentialDate">Potential Date:</label>
-    <input type="date" id="potentialDate" formControlName="potentialDate" required class="form-control">
+    <input type="date" id="potentialDate" formControlName="potentialDate" required class="form-control" (blur)="onBlur('potentialDate')">
+    <div *ngIf="fieldBlurred['potentialDate'] && form.controls['potentialDate'].invalid && (form.controls['potentialDate'].dirty || form.controls['potentialDate'].touched)" class="error-message">Potential Date must be later or same as today.</div>
   </div>
   <div class="form-group">
     <label for="repairDescription">Repair Description:</label>
-    <input type="text" id="repairDescription" formControlName="repairDescription" required class="form-control">
+    <input type="text" id="repairDescription" formControlName="repairDescription" required class="form-control" (blur)="onBlur('repairDescription')">
+    <div *ngIf="fieldBlurred['repairDescription'] && form.controls['repairDescription'].invalid && (form.controls['repairDescription'].dirty || form.controls['repairDescription'].touched)" class="error-message">Repair Description: min 1, max 750.</div>
   </div>
   <div class="form-group">
     <label for="status">Status:</label>
-    <select id="status" formControlName="status" required class="form-control">
+    <select id="status" formControlName="status" required class="form-control" (blur)="onBlur('status')">
       <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
     </select>
+    <div *ngIf="fieldBlurred['status'] && form.controls['status'].invalid && (form.controls['status'].dirty || form.controls['status'].touched)" class="error-message">Status is required.</div>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

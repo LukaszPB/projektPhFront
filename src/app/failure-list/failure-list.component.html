@@ -1,6 +1,17 @@
 <div class="failure-container">
   <h1>Lista Failures</h1>
-  <button class="add-button" (click)="navigateToAddForm()">Dodaj</button>
+  <button class="add-button" (click)="navigateToAddForm()">Dodaj</button><br><br>
+  <div class="sort-menu">
+    <label for="sortSelect">Date sort:</label>
+    <select id="sortSelect" (change)="sortFailures($event)">
+      <option value="asc">Rosnąco</option>
+      <option value="desc">Malejąco</option>
+    </select>
+  </div><br><br>
+  <label for="sortSelect">Status filter: </label>
+  <select id="filterSelect" (change)="filterStatuses($event)">
+    <option value="all">Wszystkie</option>
+    <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+  </select>
   <app-failure-element *ngFor="let failure of failures" [failure]="failure"></app-failure-element>
-
 </div>

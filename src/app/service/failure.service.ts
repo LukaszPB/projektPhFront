@@ -26,20 +26,22 @@ export class FailureService {
     return this.failureListUpdated$.asObservable();
   }
 
-  addFailure(failure: DTOModel):Observable<Failure> {
-    console.log(this.failures);
+  addFailure(failure: DTOModel): Observable<Failure> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':'application/json'})
+        'Content-Type': 'application/json'
+      })
     };
-    console.log(`${this.url}Failure`);
-    const jsonFailure = JSON.stringify(failure)
-    console.log(jsonFailure);
-    return this.http.post<Failure>(`${this.url}Failure`, failure).pipe(
-      catchError(this.handleError<Failure>('addFailure')),
+
+    return this.http.post<Failure>(`${this.url}Failure`, failure, httpOptions).pipe(
+      catchError(error => {
+        console.error('addFailure failed:', error);
+        throw error; // Rzucenie błędu dalej do obsługi w komponencie
+      }),
       tap(() => this.failureListUpdated$.next())
     );
   }
+
   deleteFailure(failureId: number): Observable<void> {
     return this.http.delete<void>(`${this.url}Failure/${failureId}`).pipe(
       catchError(this.handleError<void>('deleteFailure'))

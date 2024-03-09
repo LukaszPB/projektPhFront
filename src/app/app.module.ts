@@ -8,6 +8,7 @@ import { FailureElementComponent } from './failure-list/failure-element/failure-
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import { FailureFormularzComponent } from './formularz/failure-formularz/failure-formularz.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     ReactiveFormsModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

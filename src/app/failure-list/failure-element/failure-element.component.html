@@ -4,8 +4,9 @@
     <li><span>ID:</span> {{ failure.id }}</li>
     <li><span>Failure Type:</span> {{ failure.failureType }}</li>
     <li><span>Name:</span> {{ failure.name }}</li>
+    <li><span>Date:</span> {{ zamienDate(failure.date) | date:'dd.MM.yyyy' }}</li>
     <li><span>Potential Cost:</span> {{ failure.potentialCost }}</li>
-    <li><span>Potential Date:</span> {{ zamienDate(failure.potentialDate) }}</li>
+    <li><span>Potential Date:</span> {{ zamienDate(failure.potentialDate) | date:'dd.MM.yyyy'  }}</li>
     <li><span>Status:</span> {{ failure.status }}</li>
     <li><span>Repair Description:</span> {{ failure.repairDescription }}</li>
   </ul>

@@ -4,11 +4,20 @@ export class Failure{
   constructor( private _id:number,
                private _failureType:String,
                private _name:String,
+               private _date:Date,
                private _potentialCost:number,
                private _potentialDate:Date,
                private _status:String,
                private _repairDescription:String,
   ) {
+  }
+
+  get date(): Date {
+    return this._date;
+  }
+
+  set date(value: Date) {
+    this._date = value;
   }
 
   get id(): number {
