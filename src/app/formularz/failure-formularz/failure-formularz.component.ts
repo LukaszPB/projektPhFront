@@ -161,7 +161,7 @@ export class FailureFormularzComponent implements OnInit {
       const statusValue = this.getStatusValue(status)
       // Wysyłanie zapytania POST do backendu
       this.failureService.postPrzewidywanaCena(failureTypeValue, statusValue, daysDifference).subscribe(cena => {
-        this.przewidywanaCena = cena;
+        this.przewidywanaCena = parseFloat(cena[0]).toFixed(2);
       });
     }
   }

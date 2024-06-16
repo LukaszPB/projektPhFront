@@ -72,6 +72,7 @@ export class FailureService {
     };
 
     const body = [failureType, status, daysDifference ];
+    console.log(body);
     return this.http.post<string>(`${this.urlAi}/predict`, body, httpOptions);
   }
   getStatuses(): Observable<string[]> {
