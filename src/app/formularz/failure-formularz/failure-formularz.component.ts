@@ -42,6 +42,12 @@ export class FailureFormularzComponent implements OnInit {
     this.form.get('status')?.valueChanges.subscribe(() => {
       this.updatePrzewidywanaCena();
     });
+    this.form.get('date')?.valueChanges.subscribe(() => {
+      this.updatePrzewidywanaCena();
+    });
+    this.form.get('potentialDate')?.valueChanges.subscribe(() => {
+      this.updatePrzewidywanaCena();
+    });
   }
 
   ngOnInit(): void {
@@ -136,6 +142,7 @@ export class FailureFormularzComponent implements OnInit {
   }
 
   private updatePrzewidywanaCena() {
+    console.log("wywoluje");
     const failureType = this.form.get('failureType')?.value;
     const status = this.form.get('status')?.value;
 
@@ -147,7 +154,7 @@ export class FailureFormularzComponent implements OnInit {
       // Oblicz różnicę w dniach
       const startDate = new Date(date);
       const endDate = new Date(potentialDate);
-
+      console.log("ustawiam");
       const difference = endDate.getTime() - startDate.getTime();
       const daysDifference = Math.ceil(difference / (1000 * 3600 * 24));
       const failureTypeValue = this.getFailureTypeValue(failureType)
