@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FailureService } from "../../service/failure.service";
 import { Failure } from "../../Klasa/failure.model";
@@ -17,22 +17,30 @@ export class FailureFormularzComponent implements OnInit {
   failureTypes: string[] = [];
   statuses: string[] = [];
 
-  przewidywanaCena:string="";
+  przewidywanaCena: string = "";
   editing: boolean;
 
   constructor(private fb: FormBuilder, private failureService: FailureService, private router: Router, private route: ActivatedRoute) {
     this.editing = false;
-    if (!isNaN(+this.route.snapshot.params['id'])){
-      this.editing=true;
+    if (!isNaN(+this.route.snapshot.params['id'])) {
+      this.editing = true;
     }
     this.form = this.fb.group({
       failureType: [{ value: '', disabled: this.editing }, Validators.required],
       name: [{ value: '', disabled: this.editing }, [Validators.minLength(1), Validators.maxLength(250), Validators.required]],
-      date: [{ value: '', disabled: this.editing },[this.validateDate,Validators.required] ],
+      date: [{ value: '', disabled: this.editing }, [this.validateDate, Validators.required]],
       potentialCost: [{ value: '', disabled: false }, [Validators.min(0), Validators.required]],
       potentialDate: [{ value: '', disabled: false }, [this.validatePotentialDate, Validators.required]],
       repairDescription: [{ value: '', disabled: false }, [Validators.minLength(1), Validators.maxLength(750), Validators.required]],
-      status: [{ value: '', disabled: false}, Validators.required]
+      status: [{ value: '', disabled: false }, Validators.required]
+    });
+
+    this.form.get('failureType')?.valueChanges.subscribe(() => {
+      this.updatePrzewidywanaCena();
+    });
+
+    this.form.get('status')?.valueChanges.subscribe(() => {
+      this.updatePrzewidywanaCena();
     });
   }
 
@@ -47,14 +55,8 @@ export class FailureFormularzComponent implements OnInit {
       this.statuses = statuses;
     });
 
-    this.failureService.getPrzewidywanaCena().subscribe(cena => {
-      this.przewidywanaCena = cena[0];
-    });
-
     if (!isNaN(this.id_edycji)) {
-      console.log(this.editing);
       this.editing = true;
-      console.log(this.editing);
       this.failureService.getSingleFailure(this.id_edycji).subscribe(failure => {
         if (failure) {
           const potentialDate = new Date(failure.potentialDate);
@@ -64,7 +66,7 @@ export class FailureFormularzComponent implements OnInit {
           this.form.patchValue({
             failureType: failure.failureType,
             name: failure.name,
-            date:formattedNormalDate,
+            date: formattedNormalDate,
             potentialCost: failure.potentialCost,
             potentialDate: formattedDate,
             status: failure.status,
@@ -73,7 +75,6 @@ export class FailureFormularzComponent implements OnInit {
         }
       });
     }
-    console.log(this.editing);
   }
 
   onBlur(fieldName: string) {
@@ -81,7 +82,6 @@ export class FailureFormularzComponent implements OnInit {
   }
 
   add() {
-    console.log(this.editing);
     if (this.form.valid) {
       const failure = new DTOModel(
         1000,
@@ -95,13 +95,11 @@ export class FailureFormularzComponent implements OnInit {
       );
 
       if (isNaN(this.id_edycji)) {
-        console.log("Dodaję nowy failure:", this.form.value);
         this.failureService.addFailure(failure).subscribe(() => {
           this.failureService.updateFailureList(); // Aktualizacja listy po dodaniu
           this.router.navigate(['/']);
         });
       } else {
-        console.log("Edytuję istniejący failure:", this.form.value);
         this.failureService.putFailure(this.id_edycji, failure).subscribe(() => {
           this.failureService.updateFailureList(); // Aktualizacja listy po edycji
           this.router.navigate(['/']);
@@ -118,6 +116,7 @@ export class FailureFormularzComponent implements OnInit {
       });
     }
   }
+
   validatePotentialDate(control: AbstractControl): { [key: string]: boolean } | null {
     const selectedDate = new Date(control.value);
     const currentDate = new Date();
@@ -126,6 +125,7 @@ export class FailureFormularzComponent implements OnInit {
     }
     return null;
   }
+
   validateDate(control: AbstractControl): { [key: string]: boolean } | null {
     const selectedDate = new Date(control.value);
     const currentDate = new Date();
@@ -134,4 +134,47 @@ export class FailureFormularzComponent implements OnInit {
     }
     return null;
   }
+
+  private updatePrzewidywanaCena() {
+    const failureType = this.form.get('failureType')?.value;
+    const status = this.form.get('status')?.value;
+
+    // Sprawdzenie czy obie daty są ustawione
+    const date = this.form.get('date')?.value;
+    const potentialDate = this.form.get('potentialDate')?.value;
+
+    if (failureType && status && date && potentialDate) {
+      // Oblicz różnicę w dniach
+      const startDate = new Date(date);
+      const endDate = new Date(potentialDate);
+
+      const difference = endDate.getTime() - startDate.getTime();
+      const daysDifference = Math.ceil(difference / (1000 * 3600 * 24));
+      const failureTypeValue = this.getFailureTypeValue(failureType)
+      const statusValue = this.getStatusValue(status)
+      // Wysyłanie zapytania POST do backendu
+      this.failureService.postPrzewidywanaCena(failureTypeValue, statusValue, daysDifference).subscribe(cena => {
+        this.przewidywanaCena = cena;
+      });
+    }
+  }
+  private getFailureTypeValue(type: string): number {
+    switch (type) {
+      case 'LOW': return 0;
+      case 'MILD': return 1;
+      case 'HIGH': return 2;
+      case 'CRITICAL': return 3;
+      default: return -1;
+    }
+  }
+  private getStatusValue(status: string): number {
+    switch (status) {
+      case 'NEW': return 0;
+      case 'IN_PROGRESS': return 1;
+      case 'FINISHED': return 2;
+      case 'UNREPAIRABLE': return 3;
+      default: return -1;
+    }
+  }
+
 }

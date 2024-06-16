@@ -64,8 +64,15 @@ export class FailureService {
   getFailureTypes(): Observable<string[]> {
     return this.http.get<string[]>(`${this.url}FailureTypes`);
   }
-  getPrzewidywanaCena(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.urlAi}/predict`);
+  postPrzewidywanaCena(failureType: number, status: number, daysDifference: number): Observable<string> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    const body = { failureType, status, daysDifference };
+    return this.http.post<string>(`${this.urlAi}/predict`, body, httpOptions);
   }
   getStatuses(): Observable<string[]> {
     return this.http.get<string[]>(`${this.url}Statuses`);
