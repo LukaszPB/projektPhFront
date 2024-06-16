@@ -16,6 +16,8 @@ export class FailureFormularzComponent implements OnInit {
   fieldBlurred: { [key: string]: boolean } = {};
   failureTypes: string[] = [];
   statuses: string[] = [];
+
+  przewidywanaCena:string="";
   editing: boolean;
 
   constructor(private fb: FormBuilder, private failureService: FailureService, private router: Router, private route: ActivatedRoute) {
@@ -43,6 +45,10 @@ export class FailureFormularzComponent implements OnInit {
 
     this.failureService.getStatuses().subscribe(statuses => {
       this.statuses = statuses;
+    });
+
+    this.failureService.getPrzewidywanaCena().subscribe(cena => {
+      this.przewidywanaCena = cena[0];
     });
 
     if (!isNaN(this.id_edycji)) {

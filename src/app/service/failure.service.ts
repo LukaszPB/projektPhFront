@@ -11,6 +11,9 @@ export class FailureService {
 
   url='http://localhost:8080/';
   failures: Failure[] =[];
+
+  przewidywanaCena: string="";
+  urlAi='http://localhost:5001/';
   private failureListUpdated$ = new Subject<void>();
   constructor(private http:HttpClient) { }
 
@@ -61,7 +64,9 @@ export class FailureService {
   getFailureTypes(): Observable<string[]> {
     return this.http.get<string[]>(`${this.url}FailureTypes`);
   }
-
+  getPrzewidywanaCena(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.urlAi}/predict`);
+  }
   getStatuses(): Observable<string[]> {
     return this.http.get<string[]>(`${this.url}Statuses`);
   }
